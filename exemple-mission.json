@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "status": "editorial_example_audio_not_generated",
+  "missionId": "star-wars-introductions-01",
+  "title": "Avec Luke et Leia",
+  "universeId": "star-wars",
+  "curriculum": "cycle2-fr-2020-ce2-2026-2027",
+  "skillIds": [
+    "pronouns.i",
+    "verb.be.first_person",
+    "introductions.role"
+  ],
+  "instructionLocale": "fr-FR",
+  "learningLocale": "en-GB",
+  "prerequisites": [
+    "greeting.hello"
+  ],
+  "audioReferencesArePlaceholders": true,
+  "steps": [
+    {
+      "id": "model",
+      "type": "listen",
+      "segments": [
+        {
+          "locale": "fr-FR",
+          "text": "Luke accueille un nouveau pilote. Écoute comment le pilote se présente.",
+          "audioId": "intro.fr.v1"
+        },
+        {
+          "locale": "en-GB",
+          "text": "Hello! I am a pilot.",
+          "audioId": "pilot.model.en-GB.v1"
+        }
+      ],
+      "result": "unassessed"
+    },
+    {
+      "id": "production",
+      "type": "guided_response",
+      "prompt": {
+        "locale": "fr-FR",
+        "text": "À ton tour : dis en anglais « Je suis un pilote ».",
+        "audioId": "pilot.prompt.fr.v1"
+      },
+      "expectedLocale": "en-GB",
+      "acceptedNormalizedAnswers": [
+        "i am a pilot",
+        "i'm a pilot"
+      ],
+      "normalization": [
+        "unicode_apostrophe_to_ascii",
+        "lowercase",
+        "trim",
+        "collapse_spaces",
+        "remove_terminal_punctuation"
+      ],
+      "meaningPreservingOnly": true,
+      "listenWindowMs": 7000,
+      "maxRetryCount": 1,
+      "feedback": {
+        "correct": {
+          "text": "Oui ! I am a pilot.",
+          "audioIds": [
+            "yes.fr.v1",
+            "pilot.model.en-GB.v1"
+          ]
+        },
+        "needs_help": {
+          "text": "Pour « je suis », commence par « I am ». Essaie encore.",
+          "audioIds": [
+            "pilot.hint.fr.v1"
+          ]
+        },
+        "unrecognized": {
+          "text": "Je n’ai pas bien entendu. On essaie encore ?",
+          "affectsMastery": false,
+          "audioIds": [
+            "retry.fr.v1"
+          ]
+        },
+        "network_unavailable": {
+          "nextMode": "listen_and_repeat",
+          "affectsMastery": false,
+          "audioIds": [
+            "listen.fallback.fr.v1"
+          ]
+        }
+      },
+      "afterRetries": {
+        "playAudioId": "pilot.model.en-GB.v1",
+        "continue": true,
+        "affectsMasteryIfUnrecognized": false
+      },
+      "androidAutoAudioVariant": {
+        "sequence": [
+          {
+            "audioId": "pilot.prompt.fr.v1"
+          },
+          {
+            "silenceMs": 7000
+          },
+          {
+            "audioId": "here.is.the.answer.fr.v1"
+          },
+          {
+            "audioId": "pilot.model.en-GB.v1"
+          }
+        ],
+        "requiresMicrophone": false,
+        "result": "unassessed"
+      }
+    },
+    {
+      "id": "transfer",
+      "type": "listen_and_repeat",
+      "segments": [
+        {
+          "locale": "fr-FR",
+          "text": "Et dans la vraie vie, tu peux dire « Je suis un élève ».",
+          "audioId": "student.prompt.fr.v1"
+        },
+        {
+          "locale": "en-GB",
+          "text": "I am a student.",
+          "audioId": "student.model.en-GB.v1"
+        }
+      ],
+      "result": "unassessed"
+    }
+  ]
+}

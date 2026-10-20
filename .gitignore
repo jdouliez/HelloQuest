@@ -1,0 +1,30 @@
+# Local tools and editor state
+.venv/
+__pycache__/
+*.py[cod]
+.idea/
+*.iml
+.DS_Store
+
+# Local configuration and signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+android/local.properties
+android/key.properties
+
+# Android and Gradle outputs
+.gradle/
+**/build
+*.apk
+*.aab
+*.apks
+*.hprof
+
+# Generated assets: reproduce with tools/build_audio.py and Gradle syncContent
+android/app/src/main/assets/audio/
+android/app/src/main/assets/dialogues-poc.json
+android/app/src/main/assets/lesson-photos.json
+android/app/src/main/assets/photo-credits.json

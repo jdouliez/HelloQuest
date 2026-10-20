@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple">#5943CC</color>
+    <color name="paper">#F7F6F2</color>
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">@color/purple</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/paper</item>
+        <item name="android:navigationBarColor">#252344</item>
+        <item name="android:windowBackground">@color/paper</item>
+    </style>
+    <style name="CarTheme">
+        <item name="android:colorAccent">@color/purple</item>
+    </style>
+</resources>
