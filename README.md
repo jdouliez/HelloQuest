@@ -1,24 +1,42 @@
 # Hello Quest
 
-Prototype Android pour apprendre les bases de l’anglais en CE2, sur téléphone, tablette ou en écoute partagée avec Android Auto. L’enfant découvre une notion dans une **leçon**, la pratique dans des **exercices**, puis la valide avec un **quiz**. Un univers (Star Wars, Harry Potter, Échecs, Jeux vidéo, Voyages et pays, Animaux) donne un cadre familier à chaque sujet d’apprentissage.
+**Apprendre les bases de l’anglais à travers de courtes aventures audio.**
 
-Le catalogue contient **41 sujets**, déclinés dans **6 univers**. Les leçons présentent le principe, des mots utiles, leur traduction et des photos. Elles avancent à l’action de l’enfant. Les exercices alternent réponse orale, QCM, remise en ordre et réponse libre. Les quiz comptent 5 à 10 QCM ; un résultat supérieur à 75 % valide le couple sujet–univers. Les exercices et quiz sont accessibles uniquement après la leçon correspondante. La progression et les points sont enregistrés localement sur l’appareil.
+Hello Quest est un prototype Android destiné aux enfants francophones qui débutent l’anglais, notamment en CE2. Un parent choisit un **sujet d’apprentissage** (couleurs, pronoms, famille, verbes…) et un **univers** familier à l’enfant. Le sujet définit ce qu’on apprend ; l’univers donne un cadre à la leçon, aux exercices et au quiz. L’application fonctionne sur téléphone et tablette, sans compte à créer ; un catalogue audio distinct est disponible pour Android Auto.
 
-## Captures du Pixel 7
+Le catalogue actuel associe **41 sujets** à **6 univers** (246 combinaisons) : Star Wars, Harry Potter, Échecs, Jeux vidéo, Voyages et pays, et Animaux. Un sujet peut être étudié dans plusieurs univers, ou choisi aléatoirement pour varier les séances. Par exemple, le sujet *Couleurs* dans l’univers *Échecs* introduit des mots comme *black* et *red* dans une aventure autour de l’échiquier.
 
-| Accueil | Leçon : introduction |
+## Découvrir l’application
+
+| Accueil | Leçon de vocabulaire |
 |:---:|:---:|
-| <img src="docs/screenshots/accueil-pixel-7.png" alt="Accueil de Hello Quest sur Pixel 7" width="260"> | <img src="docs/screenshots/lecon-introduction-pixel-7.png" alt="Introduction d’une leçon" width="260"> |
-| **Leçon : carte de vocabulaire** | **Exercice QCM** |
-| <img src="docs/screenshots/lecon-carte-pixel-7.png" alt="Carte de vocabulaire illustrée" width="260"> | <img src="docs/screenshots/exercice-qcm-pixel-7.png" alt="Exercice de traduction à choix multiple" width="260"> |
+| <img src="docs/screenshots/accueil.png" alt="Accueil : choix des leçons, exercices et quiz" width="270"> | <img src="docs/screenshots/lecon-vocabulaire.png" alt="Carte de leçon avec photographie, mot anglais et traduction" width="270"> |
+| **Exercice** | **Quiz** |
+| <img src="docs/screenshots/exercice-qcm.png" alt="Exercice à choix multiple avec phrase anglaise" width="270"> | <img src="docs/screenshots/quiz.png" alt="Quiz de vocabulaire avec score et trois réponses" width="270"> |
 
-[Voir aussi le quiz sur Pixel 7](docs/screenshots/quiz-pixel-7.png). Captures prises sur l’application installée, via ADB.
+[Voir aussi l’introduction d’une leçon](docs/screenshots/lecon-introduction.png).
 
-## Construire et installer
+Le parcours suit trois étapes :
 
-Pré-requis : JDK 17, Android SDK Platform 35 et Build Tools, Python 3 et `ffmpeg`. Le wrapper Gradle télécharge Gradle au premier lancement. La génération des voix nécessite une connexion Internet ; les pistes préenregistrées occupent environ **716 Mio** et ne sont pas versionnées. Prévoir la place nécessaire pour les pistes et l’APK. Indiquer le SDK par `ANDROID_HOME` ou dans `android/local.properties` (par exemple `sdk.dir=/chemin/vers/Android/Sdk`).
+1. **Leçons** — une introduction explique la notion, puis des cartes présentent les mots, leur sens, un exemple prononcé en anglais et une photographie. L’enfant passe à la carte suivante quand il est prêt.
+2. **Exercices** — après la leçon correspondante, il pratique à son rythme : répéter une phrase, choisir une réponse, remettre des mots dans l’ordre ou répondre oralement. La traduction française accompagne les exercices parlés.
+3. **Quiz** — après la leçon, 5 à 10 QCM vérifient la compréhension, sans répéter le cours. Il faut **plus de 75 %** de bonnes réponses pour valider le sujet dans l’univers choisi.
 
-Depuis la racine du dépôt :
+La page des sujets indique **Non vu**, **Vu** après une leçon terminée, puis **Validé** après un quiz réussi. La progression, les points, les badges et les univers débloqués sont conservés localement sur l’appareil. L’application propose aussi de courtes lectures guidées et des mini-dialogues. Les réglages permettent de choisir l’accent anglais, le temps de réflexion et le nombre de questions.
+
+### Voix et usage en voiture
+
+Les consignes françaises et les exemples anglais utilisent des voix distinctes. Les voix anglaises britannique et américaine sont sélectionnables dans les réglages. Les clips sont générés **avant** la compilation avec [edge-tts](https://github.com/rany2/edge-tts) ; aucune synthèse vocale n’est demandée pendant une séance. La reconnaissance des réponses orales est fournie par le service Android de l’appareil et peut nécessiter une connexion selon sa configuration.
+
+Sur **Android Auto**, Hello Quest expose une source média : les leçons et questions sont lues sous forme de pistes avec des pauses pour répondre à voix haute. Cette écoute ne note pas la réponse de l’enfant. Les QCM et la reconnaissance vocale restent dans l’interface du téléphone ou de la tablette. Pour tester un APK installé hors Play Store, l’option Android Auto **Sources inconnues** peut être nécessaire ; voir la [documentation officielle de test en voiture](https://developer.android.com/training/cars/testing). Une aide est disponible dans les réglages de l’application.
+
+## Installer ou compiler
+
+L’application cible **Android 8.0 (API 26) ou plus récent**. Le dépôt contient les sources et les photographies, mais pas les pistes audio générées ni l’APK, trop volumineux pour le Git ordinaire. Si une version précompilée est disponible, elle se trouve dans les [Releases du projet](https://github.com/jdouliez/HelloQuest/releases). Sinon, le build debug permet de l’essayer localement.
+
+Pré-requis pour compiler : **JDK 17**, **Android SDK Platform 35** et ses Build Tools, **Python 3.10+**, **ffmpeg/ffprobe** et une connexion Internet pour télécharger les dépendances et préparer les voix. Indiquer le chemin du SDK avec `ANDROID_HOME` ou dans `android/local.properties` (`sdk.dir=/chemin/vers/Android/Sdk`). Prévoir plusieurs gigaoctets libres : les pistes audio générées occupent à elles seules environ **716 Mio**.
+
+Depuis la racine du dépôt, sous Linux ou macOS :
 
 ```sh
 python3 -m venv .venv
@@ -29,26 +47,26 @@ cd android
 ./gradlew :app:assembleDebug :app:lintDebug
 ```
 
-L’APK debug se trouve dans `android/app/build/outputs/apk/debug/app-debug.apk`. Il est signé avec la clé de débogage locale et convient aux essais du PoC :
+Sous Windows, utiliser `.venv\Scripts\python` et `gradlew.bat`. Le wrapper Gradle télécharge la version nécessaire au premier lancement. L’APK est produit dans `android/app/build/outputs/apk/debug/app-debug.apk` ; une fois revenu à la racine du dépôt, l’installer avec :
 
 ```sh
 adb install -r android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Le minimum est Android 8.0 (API 26). Le service de reconnaissance vocale du téléphone peut nécessiter le réseau selon la configuration de l’appareil. Les voix des leçons et exercices sont préparées avant le build : français `fr-FR-DeniseNeural`, anglais britannique `en-GB-SoniaNeural` et américain `en-US-JennyNeural`, via [edge-tts](https://github.com/rany2/edge-tts). L’application ne contacte pas le service TTS pendant une séance.
+Il s’agit d’un **APK de test signé avec une clé de débogage locale**. Pour installer une mise à jour sur un appareil où l’application est déjà présente, il faut conserver la [même clé de signature](https://developer.android.com/studio/publish/app-signing). Pour distribuer un APK volumineux, utiliser un asset de [GitHub Release](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github), pas un fichier suivi dans Git.
 
-**Android Auto.** L’application expose un catalogue média et des pistes audio adaptées à l’écoute en voiture. La correction orale et les QCM restent sur le téléphone. Pour tester un APK installé hors Play Store, il peut être nécessaire d’activer « Sources inconnues » dans les options développeur d’Android Auto, puis de vérifier « Personnaliser le lanceur » ; voir la [documentation Android de test sur voiture](https://developer.android.com/training/cars/testing). L’aide correspondante est dans les réglages de l’application.
+## Organisation du dépôt
 
-## Modifier le contenu
+| Chemin | Rôle |
+| --- | --- |
+| [`android/`](android/) | Application native Java, interface, audio et service média Android Auto. |
+| [`content/dialogues-poc.json`](content/dialogues-poc.json) | Source des sujets, univers, leçons, exercices et textes préparés. |
+| [`content/photo-map.json`](content/photo-map.json), [`content/photo-credits.json`](content/photo-credits.json) | Association des photos aux notions, sources et crédits. |
+| [`tools/`](tools/) | Génération du catalogue photo, des dialogues lisibles, des voix et validation du contenu. |
+| [`maquettes/`](maquettes/) | Maquettes navigateur du concept initial. |
+| [`DOSSIER_PROJET.md`](DOSSIER_PROJET.md) | Historique des choix et pistes de conception. |
 
-- `content/dialogues-poc.json` : source des univers, sujets, cartes théoriques, questions et textes audio.
-- `content/photo-map.json` et `content/photo-credits.json` : associations et crédits des photographies ; les fichiers image sont dans `android/app/src/main/assets/photos/`.
-- `tools/build_photo_catalog.py` : génère `content/lesson-photos.json` à partir des sources précédentes.
-- `tools/export_dialogues.py` : régénère `content/dialogues-poc.md` et les données de la [maquette navigateur](maquettes/index.html).
-- `tools/build_audio.py` : génère les clips et pistes dans `android/app/src/main/assets/audio/`.
-- `tools/validate_content.py` : vérifie les références, les traductions et la couverture du contenu.
-
-Après une modification du catalogue ou des photos :
+Après une modification du contenu, régénérer les données dérivées et les pistes Android Auto :
 
 ```sh
 python3 tools/build_photo_catalog.py
@@ -57,6 +75,4 @@ python3 tools/export_dialogues.py
 python3 tools/validate_content.py
 ```
 
-Le build Gradle copie automatiquement les catalogues nécessaires depuis `content/` vers les assets Android. Ces copies, les pistes audio et les sorties de build sont exclues de Git. Les photos et leurs attributions sont conservées dans le dépôt ; leur provenance et leur licence figurent dans [photo-credits.json](content/photo-credits.json). Les univers sous marques tierces servent au PoC familial et ne constituent pas une affiliation officielle.
-
-L’APK local `HelloQuest-Pixel7.apk` est également exclu de Git : il dépasse la [limite de 100 Mio des fichiers GitHub ordinaires](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github). Pour partager un build, téléverser l’APK séparément comme [asset d’une GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases). Le [dossier de projet](DOSSIER_PROJET.md) retrace les choix de conception et les limites du prototype.
+Les photographies intégrées et leurs licences sont détaillées dans [photo-credits.json](content/photo-credits.json). Hello Quest est un projet indépendant, sans affiliation avec les ayants droit des univers cités. Il s’agit d’un prototype : l’expérience Android Auto est audio uniquement et la reconnaissance vocale dépend du service présent sur l’appareil.
