@@ -8,8 +8,9 @@ root = Path(__file__).resolve().parents[1]
 catalog_path = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "content/dialogues-poc.json"
 catalog = json.loads(catalog_path.read_text())
 audio_root = root / "android/app/src/main/assets"
+track_root = root / "android/audio_pack/src/main/assets"
 clips = json.loads((audio_root / "audio/index.json").read_text())
-tracks = json.loads((audio_root / "audio/tracks/index.json").read_text())
+tracks = json.loads((track_root / "audio/tracks/index.json").read_text())
 photos = json.loads((root / "content/lesson-photos.json").read_text())
 
 
@@ -149,7 +150,7 @@ for universe_id, topic_id in lesson_ids:
     for accent in ("en-GB", "en-US"):
         assert f"{universe_id}:{topic_id}:{accent}" in tracks
 for path in tracks.values():
-    assert (audio_root / path).is_file(), path
+    assert (track_root / path).is_file(), path
 assert len(reading_ids) >= 18
 for line in ("Good job!", "No, it's incorrect."):
     has_voice("en", line)

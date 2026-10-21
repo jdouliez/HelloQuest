@@ -2,6 +2,7 @@ package fr.helloquest;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -575,7 +577,25 @@ public final class MainActivity extends Activity {
         addText(page,"Ce réglage s’applique aux séances sur le téléphone. Les pistes Android Auto gardent une pause audio fixe pour répondre.",12,MUTED,false,18);
         addText(page,"Options de connexion",18,INK,true,25);
         addButton(page,"🚗 Android Auto · aide et test",false,10,this::showAutoHelp);
+        addText(page,"Confidentialité",18,INK,true,25);
+        addText(page,"La progression reste sur cet appareil. Lors d’une réponse orale, le service de reconnaissance vocale du téléphone peut traiter la voix, parfois en ligne.",14,MUTED,false,8);
+        addButton(page,"Lire la politique de confidentialité",false,10,this::showPrivacyPolicy);
         addHomeFooter(page);
+    }
+
+    private void showPrivacyPolicy() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confidentialité · Hello Quest")
+                .setMessage("Aucun compte, publicité ou achat intégré. Les leçons, scores et réglages sont enregistrés uniquement sur cet appareil.\n\n"+
+                        "Le microphone sert aux réponses orales. Le service de reconnaissance vocale configuré sur le téléphone peut traiter la voix et, selon ses réglages, utiliser Internet. Hello Quest reçoit le texte reconnu pour vérifier la réponse, sans conserver l’enregistrement ni l’envoyer à son propre serveur.\n\n"+
+                        "Pour effacer la progression, supprime les données de l’application ou désinstalle-la. Contact : jordandouliez@gmail.com.")
+                .setPositiveButton("Fermer",null)
+                .setNeutralButton("Politique complète",(dialog,which)->{
+                    Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(
+                            "https://github.com/jdouliez/HelloQuest/blob/main/docs/privacy-policy.md"));
+                    startActivity(intent);
+                })
+                .show();
     }
 
     private void addSettingSlider(LinearLayout page,int min,int max,int current,

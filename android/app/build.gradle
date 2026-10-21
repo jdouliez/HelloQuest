@@ -2,16 +2,39 @@ plugins {
     id 'com.android.application'
 }
 
+def uploadKeyProperties = new Properties()
+def uploadKeyFile = new File(System.getProperty('user.home'), '.config/helloquest-play/signing.properties')
+if (uploadKeyFile.isFile()) {
+    uploadKeyFile.withInputStream { uploadKeyProperties.load(it) }
+}
+
 android {
     namespace 'fr.helloquest'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId 'fr.helloquest'
         minSdk 26
-        targetSdk 35
-        versionCode 18
-        versionName '0.18.0'
+        targetSdk 36
+        versionCode 19
+        versionName '0.19.0'
+    }
+
+    signingConfigs {
+        if (!uploadKeyProperties.isEmpty()) {
+            release {
+                storeFile file(uploadKeyProperties['storeFile'])
+                storePassword uploadKeyProperties['storePassword']
+                keyAlias uploadKeyProperties['keyAlias']
+                keyPassword uploadKeyProperties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (!uploadKeyProperties.isEmpty()) signingConfig signingConfigs.release
+        }
     }
 
     compileOptions {
@@ -25,6 +48,14 @@ android {
 
     lint {
         abortOnError true
+    }
+
+    assetPacks = [':audio_pack']
+
+    sourceSets {
+        debug {
+            assets.srcDirs += ['../audio_pack/src/main/assets']
+        }
     }
 }
 

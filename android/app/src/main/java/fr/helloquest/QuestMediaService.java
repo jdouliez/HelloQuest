@@ -27,6 +27,9 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import androidx.media.MediaBrowserServiceCompat;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -149,12 +152,25 @@ public final class QuestMediaService extends MediaBrowserServiceCompat {
         startForeground(NOTIFICATION_ID,notification(false));
         requestFocus();
         int generation=++playerGeneration;
-        try(AssetFileDescriptor file=getAssets().openFd(path)) {
+        try {
             player=new MediaPlayer();
             player.setAudioAttributes(new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build());
-            player.setDataSource(file.getFileDescriptor(),file.getStartOffset(),file.getLength());
+            try(AssetFileDescriptor file=getAssets().openFd(path)) {
+                player.setDataSource(file.getFileDescriptor(),file.getStartOffset(),file.getLength());
+            }catch(IOException compressedAsset) {
+                // Install-time asset packs may compress tracks. MediaPlayer needs
+                // a file path when AssetManager cannot provide a descriptor.
+                File cached=new File(getCacheDir(),"helloquest-car-track.mp3");
+                try(InputStream input=getAssets().open(path);
+                    FileOutputStream output=new FileOutputStream(cached)) {
+                    byte[] buffer=new byte[16*1024];
+                    int count;
+                    while((count=input.read(buffer))!=-1)output.write(buffer,0,count);
+                }
+                player.setDataSource(cached.getAbsolutePath());
+            }
             player.setOnPreparedListener(mp->{
                 if(generation!=playerGeneration)return;
                 mp.start();publish(PlaybackStateCompat.STATE_PLAYING);

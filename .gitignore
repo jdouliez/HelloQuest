@@ -25,6 +25,7 @@ android/key.properties
 
 # Generated assets: reproduce with tools/build_audio.py and Gradle syncContent
 android/app/src/main/assets/audio/
+android/audio_pack/src/main/assets/audio/tracks/
 android/app/src/main/assets/dialogues-poc.json
 android/app/src/main/assets/lesson-photos.json
 android/app/src/main/assets/photo-credits.json

@@ -20,7 +20,7 @@ CATALOG_PATH = ROOT / "content/dialogues-poc.json"
 CATALOG = json.loads(CATALOG_PATH.read_text())
 AUDIO = ROOT / "android/app/src/main/assets/audio"
 CLIPS = AUDIO / "clips"
-TRACKS = AUDIO / "tracks"
+TRACKS = ROOT / "android/audio_pack/src/main/assets/audio/tracks"
 VOICES = {
     "fr-FR": "fr-FR-DeniseNeural",
     "en-GB": "en-GB-SoniaNeural",
